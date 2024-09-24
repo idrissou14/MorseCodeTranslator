@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     codeButtonContainer: {
       width: 84,
       height: 84,
-      marginHorizontal: 60,
+      marginHorizontal: 20,
       borderWidth: 4,
       borderColor: '#ffd33d',
       borderRadius: 42,

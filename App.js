@@ -1,37 +1,49 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {  StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import HomeScreen from './app/HomeScreen';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import SavedScreen from './app/SavedScreen';
+import SettingsScreen from './app/SettingsScreen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 
-import IconButton from './composants/IconButton';
-import CodeButton from './composants/CodeButton';
+
+const tab = createBottomTabNavigator();
+
+const TabNavigator = () => {
+  return (
+    <tab.Navigator screenOptions={{ headerShown: false }}>
+      <tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: 'Home',
+         tabBarIcon: ({ color }) => (
+          <MaterialIcon name="home" size={26} color="#1863EC" />
+        ),
+       }} />
+      <tab.Screen name="Saved" component={SavedScreen} options={{ tabBarLabel: 'Saved',
+        tabBarIcon: ({ color }) => (
+          <MaterialIcon name="star" size={26} color="#1863EC" />
+        ),
+       }} />
+       <tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarLabel: 'Setting',
+        tabBarIcon: ({ color }) => (
+          <MaterialIcon name="settings" size={26} color="#1863EC" />
+        ),
+       }} />
+    </tab.Navigator>
+  );
+}
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-
-  const onDelete = () => {
-
-  };
-  const onAddPoint = () => {
-
-  };
-  const onAddDash = () => {
-
-  };
-  const onAddSlash = () => {
-    // Add a forward slash
-  } 
-
   return (
-    <View style={styles.container}>
-      <View style={styles.optionsContainer}>
-        <View style={styles.optionsRow}>
-            <IconButton icon="backspace" label="delete" />
-            <CodeButton icon="circle" onPress={onAddPoint} />
-            <CodeButton icon="dash" onPress={onAddDash} />
-            <IconButton icon="backspace" label="delete" />
-        </View>
-      </View>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
+      </Stack.Navigator>
+  </NavigationContainer>
   );
 }
 
@@ -42,13 +54,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  optionsContainer: {
-    position: 'absolute',
-    bottom: 50,
-    backgroundColor: '#fff',
-  },
-  optionsRow: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  }
 });
