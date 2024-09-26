@@ -7,7 +7,24 @@ import color from '../utils/color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
+const morseCode = {
+  'a': '.-',    'b': '-...',  'c': '-.-.',  'd': '-..',   'e': '.',
+  'f': '..-.',  'g': '--.',   'h': '....',  'i': '..',    'j': '.---',
+  'k': '-.-',   'l': '.-..',  'm': '--',    'n': '-.',    'o': '---',
+  'p': '.--.',  'q': '--.-',  'r': '.-.',   's': '...',   't': '-',
+  'u': '..-',   'v': '...-',  'w': '.--',   'x': '-..-',  'y': '-.--',
+  'z': '--..',  '1': '.----', '2': '..---', '3': '...--', '4': '....-', 
+  '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', 
+  '0': '-----', ' ': ' / '
+};
 
+const translateToMorse = (text) => {
+  return text
+    .toLowerCase()
+    .split('')
+    .map(letter => morseCode[letter] || letter) // Convertir chaque lettre en Morse
+    .join(' ');
+};
 
 
 
@@ -15,11 +32,8 @@ export default function Home(props) {
 
   const [enterText, setEnterText] = useState("");
   const [resultText, setResultText] = useState("some translation");
-  // const translation = () => {
-  //   return(
-  //     setResultText == enterText
-  //   );
-  // }
+  
+  const morseText = translateToMorse(enterText);
 
   return (
     <View style={styles.container}>
@@ -45,7 +59,7 @@ export default function Home(props) {
             onChangeText={(text) => setEnterText(text)} //get the user text
           />
 
-          <TouchableOpacity style={styles.translateButton}  //translation bottom
+          {/* <TouchableOpacity style={styles.translateButton}  //translation bottom
               disabled={enterText === ""}
               onPress={() =>  setResultText(enterText) }  
            >
@@ -55,16 +69,19 @@ export default function Home(props) {
             disabled={true}
            onPress={() => console.log('Translate')}>
             <AntDesign name="close" size={20} color="black" />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>{resultText}</Text>
+          <Text style={styles.resultText}>{morseText}</Text>
           <TouchableOpacity style={styles.translateButton}    //copy touchable
             disabled={enterText === ""}                       
            onPress={() => console.log('Translate')}>
            <Ionicons name="copy-outline" size={24} color={resultText !== "" ? color.textColor : color.textColorDisabled} />
           </TouchableOpacity>
         </View>
+        
+        {/* signale */}
+
         <View style={styles.signalContainer}>
             <TouchableOpacity style={styles.signalBottom}>
               <MaterialIcons name="flashlight-on" size={24} color="black" />
