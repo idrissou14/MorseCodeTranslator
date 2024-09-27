@@ -39,8 +39,10 @@ export default function Home(props) {
   // Fonction to copy result of translation
   const copyToClipboard = async () => {
     if (morseText) {
+      setIsCopied(true); // Afficher le message "Copié"
       await Clipboard.setStringAsync(morseText); // Copier le texte en Morse
-      Alert.alert("Copied", "Morse code copied to clipboard!"); // Confirmer le succès
+      setTimeout(() => setIsCopied(false), 1000); // Réinitialiser le message après 1 seconde
+      
     }
   };
 
@@ -85,7 +87,7 @@ export default function Home(props) {
           <TouchableOpacity style={styles.translateButton}    //copy touchable
             disabled={enterText === ""}                       
            onPress={copyToClipboard}>
-           <Ionicons name="copy-outline" size={24} color={isCopied !== "" ? color.textColor : color.textColorDisabled} />
+           <Ionicons name="copy-outline" size={24} color={isCopied ? color.copyColor : color.textColor } />
           </TouchableOpacity>
         </View>
         
