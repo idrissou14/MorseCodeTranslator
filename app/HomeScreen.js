@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import color from '../utils/color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import * as Clipboard from 'expo-clipboard';
 
 
 const morseCode = {
@@ -22,7 +23,7 @@ const translateToMorse = (text) => {
   return text
     .toLowerCase()
     .split('')
-    .map(letter => morseCode[letter] || letter) // Convertir chaque lettre en Morse
+    .map(letter => morseCode[letter] || letter) // Convert all caractere to morse
     .join(' ');
 };
 
@@ -31,9 +32,17 @@ const translateToMorse = (text) => {
 export default function Home(props) {
 
   const [enterText, setEnterText] = useState("");
-  const [resultText, setResultText] = useState("some translation");
+  const [isCopied, setIsCopied] = useState(false);
   
   const morseText = translateToMorse(enterText);
+
+  // Fonction to copy result of translation
+  const copyToClipboard = async () => {
+    if (morseText) {
+      await Clipboard.setStringAsync(morseText); // Copier le texte en Morse
+      Alert.alert("Copied", "Morse code copied to clipboard!"); // Confirmer le succès
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -75,8 +84,8 @@ export default function Home(props) {
           <Text style={styles.resultText}>{morseText}</Text>
           <TouchableOpacity style={styles.translateButton}    //copy touchable
             disabled={enterText === ""}                       
-           onPress={() => console.log('Translate')}>
-           <Ionicons name="copy-outline" size={24} color={resultText !== "" ? color.textColor : color.textColorDisabled} />
+           onPress={copyToClipboard}>
+           <Ionicons name="copy-outline" size={24} color={isCopied !== "" ? color.textColor : color.textColorDisabled} />
           </TouchableOpacity>
         </View>
         
