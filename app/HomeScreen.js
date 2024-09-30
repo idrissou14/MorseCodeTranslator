@@ -6,6 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import color from '../utils/color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import * as Clipboard from 'expo-clipboard';
+import Torch from 'react-native-torch';
 
 
 const morseCode = {
@@ -94,7 +95,10 @@ export default function Home(props) {
         {/* signale */}
 
         <View style={styles.signalContainer}>
-            <TouchableOpacity style={styles.signalBottom}>
+            <TouchableOpacity 
+              style={styles.signalBottom}
+              onPress={() => Torch.switchState(true)}
+            >
               <MaterialIcons name="flashlight-on" size={24} color="black" />
             </TouchableOpacity>
             <TouchableOpacity style={styles.signalBottom}>
