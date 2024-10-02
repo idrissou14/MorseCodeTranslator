@@ -1,7 +1,6 @@
-import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View , TouchableOpacity, TextInput, Alert, Platform, Vibration } from 'react-native';
+import { StyleSheet, Text, View , TouchableOpacity, TextInput, Vibration, ScrollView } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import color from '../utils/color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -9,45 +8,8 @@ import * as Clipboard from 'expo-clipboard';
 import Torch from 'react-native-torch';
 import { generateMorseVibration } from '../utils/vibrationSignal';
 import { translateToMorse } from '../utils/morseUtils';
+import { generateMorseSound } from '../utils/audioSignal';
 
-
-// const morseCode = {
-//   'a': '.-',    'b': '-...',  'c': '-.-.',  'd': '-..',   'e': '.',
-//   'f': '..-.',  'g': '--.',   'h': '....',  'i': '..',    'j': '.---',
-//   'k': '-.-',   'l': '.-..',  'm': '--',    'n': '-.',    'o': '---',
-//   'p': '.--.',  'q': '--.-',  'r': '.-.',   's': '...',   't': '-',
-//   'u': '..-',   'v': '...-',  'w': '.--',   'x': '-..-',  'y': '-.--',
-//   'z': '--..',  '1': '.----', '2': '..---', '3': '...--', '4': '....-', 
-//   '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.', 
-//   '0': '-----', ' ': ' / '
-// };
-
-// const translateToMorse = (text) => {
-//   return text
-//     .toLowerCase()
-//     .split('')
-//     .map(letter => morseCode[letter] || letter) // Convert all caractere to morse
-//     .join(' ');
-// };
-
-
-// const generateMorseVibration = (morse) => {
-//     const vibrationPattern = [];
-
-//     morse.split('').forEach(element => {
-//           if(element === '.'){
-//              vibrationPattern.push(200) 
-//           }
-//           else if(element === '-'){
-//              vibrationPattern.push(400) 
-//           }
-//           else if(element ===''){
-//              vibrationPattern.push(700) 
-//           }
-//     });
-
-//     return vibrationPattern;
-// }
 
 
 export default function Home(props) {
@@ -55,6 +17,7 @@ export default function Home(props) {
   const [enterText, setEnterText] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
+  const [history, setHistory] = useState([]);
   
   const morseText = translateToMorse(enterText);
 
@@ -75,12 +38,27 @@ export default function Home(props) {
       //After
   }
 
-  //VIBRATION
-  // const vibrate = (morseText) => {
+  // const addToHistory = (text, morse) => {
+  //   if (text.trim() !== "") {
+  //     setHistory((prevHistory) => [{ text, morse }, ...prevHistory]);
+  //   }
+  // };
 
-  //   const vibrationPattern = generateMorseVibration(morseText)
-  //     Vibration.vibrate(vibrationPattern);
-  // } 
+  // useEffect(() => {
+  //   if (enterText.trim()) {
+  //     addToHistory(enterText, morseText);  // Ajouter automatiquement à chaque changement de texte
+  //   }
+  // }, [morseText]); 
+
+   // Fonction pour ajouter la traduction à l'historique
+   const addToHistory = () => {
+    if (enterText && morseText) {
+      setHistory(prevHistory => [
+        ...prevHistory,
+        { text: enterText, morse: morseText }
+      ]); // Ajoute la nouvelle traduction à l'historique
+    }
+  };
   
 
   return (
@@ -122,7 +100,7 @@ export default function Home(props) {
         <View style={styles.signalContainer}>
             <TouchableOpacity 
               style={styles.signalBottom}
-              onPress={toggleTorch}
+              onPress={() => {toggleTorch,  addToHistory()}}
             >
               <MaterialIcons name="flashlight-on" size={24} color="black" />
             </TouchableOpacity>
@@ -131,16 +109,35 @@ export default function Home(props) {
               onPress={() => {
                 const morseVibratiob = generateMorseVibration(morseText);
                 Vibration.vibrate(morseVibratiob);
+                addToHistory(enterText, morseText)
               }}
             >
               <MaterialIcons name="vibration" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.signalBottom}>
+            <TouchableOpacity 
+              style={styles.signalBottom}
+              onPress={() => {generateMorseSound(morseText),addToHistory(enterText, morseText)}}
+            >
               <Ionicons name="volume-high" size={24} color="black" /> 
             </TouchableOpacity>
         </View>
+
         <View style={styles.historyContainer}>
-          
+          <ScrollView>
+            {history.map((item, index) => (
+              <View key={index} style={styles.historyItem}>
+                <View style={styles.historyText}>
+                  <Text>Original: {item.text}</Text>
+                  <Text>Morse: {item.morse}</Text>
+                </View>
+                <View style={styles.historyBottom}>
+                  <TouchableOpacity style={styles.copyButton} onPress={() => Clipboard.setStringAsync(item.morse)}>
+                    <AntDesign name="staro" size={20} color="black" />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            ))}
+          </ScrollView>
         </View>
     </View>
     
@@ -188,18 +185,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomColor: '#dedede',
     borderBottomWidth: 1,
-    height: 90,
+    height: 120,
     paddingVertical: 15
   },
   resultText: {
     flex: 1,
-    paddingHorizontal: 20,
-    fontSize: 18
+    paddingHorizontal: 10,
+    fontSize: 25,
   },
   historyContainer: {
     backgroundColor: color.lightGrey,
     flex: 1,
-    padding: 10
+    padding: 2,
+    paddingBottom: 0
   },
   signalContainer: {
     flexDirection: 'row',
@@ -210,5 +208,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     justifyContent: 'center',
     alignItems: 'center'
-  }
+  },
+  historyItem: {
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    alignItems: 'center',
+    borderBottomColor: '#dedede',
+    borderBottomWidth: 1,
+    backgroundColor: '#fff',
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    borderRadius: 5
+  },
 });
