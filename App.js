@@ -1,8 +1,6 @@
 import 'react-native-gesture-handler';
-import { StatusBar } from 'expo-status-bar';
-import {  StyleSheet, Text, View } from 'react-native';
+import {  StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './app/HomeScreen';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SavedScreen from './app/SavedScreen';
@@ -17,18 +15,18 @@ const TabNavigator = () => {
   return (
     <tab.Navigator screenOptions={{ headerShown: false }}>
       <tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: 'Home',
-         tabBarIcon: ({ color }) => (
-          <MaterialIcon name="home" size={26} color="#1863EC" />
+         tabBarIcon: ({ color, focused }) => (
+          <MaterialIcon name="home" size={26} color={focused ? '#1863EC' : 'darkgray'} />
         ),
        }} />
       <tab.Screen name="Saved" component={SavedScreen} options={{ tabBarLabel: 'Saved',
-        tabBarIcon: ({ color }) => (
-          <MaterialIcon name="star" size={26} color="#1863EC" />
+        tabBarIcon: ({ color,focused }) => (
+          <MaterialIcon name="star" size={26} color={focused ? '#1863EC' : 'darkgray'} />
         ),
        }} />
        <tab.Screen name="Settings" component={SettingsScreen} options={{ tabBarLabel: 'Setting',
-        tabBarIcon: ({ color }) => (
-          <MaterialIcon name="settings" size={26} color="#1863EC" />
+        tabBarIcon: ({ color,focused }) => (
+          <MaterialIcon name="settings" size={26} color={focused ? '#1863EC' : 'darkgray'} />
         ),
        }} />
     </tab.Navigator>
