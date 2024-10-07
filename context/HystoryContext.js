@@ -1,4 +1,5 @@
 import React, { createContext, useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 // Créer le contexte
 export const HistoryContext = createContext();
@@ -18,6 +19,14 @@ export const HistoryProvider = ({ children }) => {
   // Fonction pour supprimer tout l'historique
   const clearHistory = () => {
     setHistory([]);
+    Toast.show({
+      type: 'success',
+      text1: 'Historique supprimé avec succès',
+      visibilityTime: 2000,
+      autoHide: true,
+      topOffset: 100,
+      bottomOffset: 0,
+    });
   };
 
   return (

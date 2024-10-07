@@ -8,6 +8,7 @@ import SettingsScreen from './app/SettingsScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { HistoryProvider } from './context/HystoryContext';
+import Toast from 'react-native-toast-message';
 
 
 const tab = createBottomTabNavigator();
@@ -45,6 +46,7 @@ export default function App() {
               >
                 <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
               </Stack.Navigator>
+              <Toast ref={(ref) => Toast.setRef(ref)} />
           </NavigationContainer>
       </HistoryProvider>
   );
