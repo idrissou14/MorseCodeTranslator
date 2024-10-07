@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View , TouchableOpacity, TextInput, Vibration, ScrollView } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import color from '../utils/color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -9,6 +9,7 @@ import Torch from 'react-native-torch';
 import { generateMorseVibration } from '../utils/vibrationSignal';
 import { translateToMorse } from '../utils/morseUtils';
 import { generateMorseSound } from '../utils/audioSignal';
+import { HistoryContext } from '../context/HystoryContext';
 
 
 
@@ -17,7 +18,7 @@ export default function Home(props) {
   const [enterText, setEnterText] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
-  const [history, setHistory] = useState([]);
+  const {history, addToHistory} = useContext(HistoryContext);
   
   const morseText = translateToMorse(enterText);
 
@@ -51,14 +52,14 @@ export default function Home(props) {
   // }, [morseText]); 
 
    // Fonction pour ajouter la traduction à l'historique
-   const addToHistory = () => {
-    if (enterText && morseText) {
-      setHistory(prevHistory => [
-        ...prevHistory,
-        { text: enterText, morse: morseText }
-      ]); // Ajoute la nouvelle traduction à l'historique
-    }
-  };
+  //  const addToHistory = () => {
+  //   if (enterText && morseText) {
+  //     setHistory(prevHistory => [
+  //       ...prevHistory,
+  //       { text: enterText, morse: morseText }
+  //     ]); // Ajoute la nouvelle traduction à l'historique
+  //   }
+  // };
   
 
   return (
@@ -100,7 +101,7 @@ export default function Home(props) {
         <View style={styles.signalContainer}>
             <TouchableOpacity 
               style={styles.signalBottom}
-              onPress={() => {toggleTorch,  addToHistory()}}
+              onPress={() => {toggleTorch,  addToHistory(enterText, morseText)}}
             >
               <MaterialIcons name="flashlight-on" size={24} color="black" />
             </TouchableOpacity>
