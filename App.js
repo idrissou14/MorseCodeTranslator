@@ -9,6 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { HistoryProvider } from './context/HystoryContext';
 import Toast from 'react-native-toast-message';
+import { FavoritesProvider } from './context/FavoritesContext';
 
 
 const tab = createBottomTabNavigator();
@@ -40,14 +41,16 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
       <HistoryProvider>
-          <NavigationContainer>
-              <Stack.Navigator initialRouteName="Home" 
-                screenOptions={{ headerStyle: {backgroundColor: "#1863EC" }, headerTitleStyle:{color: "#fff"}, headerTitleAlign: 'center' }}
-              >
-                <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
-              </Stack.Navigator>
-              <Toast ref={(ref) => Toast.setRef(ref)} />
-          </NavigationContainer>
+          <FavoritesProvider>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Home" 
+                  screenOptions={{ headerStyle: {backgroundColor: "#1863EC" }, headerTitleStyle:{color: "#fff"}, headerTitleAlign: 'center' }}
+                >
+                  <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
+                </Stack.Navigator>
+                <Toast ref={(ref) => Toast.setRef(ref)} />
+            </NavigationContainer>
+          </FavoritesProvider>
       </HistoryProvider>
   );
 }

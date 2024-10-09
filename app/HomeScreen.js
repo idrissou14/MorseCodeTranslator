@@ -10,6 +10,7 @@ import { generateMorseVibration } from '../utils/vibrationSignal';
 import { translateToMorse } from '../utils/morseUtils';
 import { generateMorseSound } from '../utils/audioSignal';
 import { HistoryContext } from '../context/HystoryContext';
+import {useFavorites} from '../context/FavoritesContext';
 
 
 
@@ -19,6 +20,7 @@ export default function Home(props) {
   const [isCopied, setIsCopied] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
   const {history, addToHistory} = useContext(HistoryContext);
+  const {addToFavorites} = useFavorites()
   
   const morseText = translateToMorse(enterText);
 
@@ -132,8 +134,8 @@ export default function Home(props) {
                   <Text>Morse: {item.morse}</Text>
                 </View>
                 <View style={styles.historyBottom}>
-                  <TouchableOpacity style={styles.copyButton} onPress={() => Clipboard.setStringAsync(item.morse)}>
-                    <AntDesign name="staro" size={20} color="black" />
+                  <TouchableOpacity style={styles.favoryButton} onPress={() => addToFavorites(item)}>
+                    <AntDesign name="staro" size={20} color="blue" />
                   </TouchableOpacity>
                 </View>
               </View>
