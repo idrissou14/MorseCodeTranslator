@@ -13,7 +13,7 @@ export default function Setting() {
   const deteltHistory = () => {
     Alert.alert(
       'Confirmation',
-      "Êtes-vous sûr de vouloir supprimer tout l'historique ?",
+      "You wont to clean History ?",
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Delete', onPress: clearHistory},
@@ -27,7 +27,7 @@ export default function Setting() {
       
       <View style={styles.deteltHistoryContainer}>
         <TouchableOpacity style={styles.deleteButton} onPress={deteltHistory}>
-          <Text style={styles.deleteButtonText}>Supprimer l'historique</Text>
+          <Text style={styles.deleteButtonText}>Delete history</Text>
           <MaterialIcons name="delete" size={24} color="red" />
         </TouchableOpacity>
       </View>

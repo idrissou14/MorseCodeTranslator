@@ -20,7 +20,7 @@ export default function Home(props) {
   const [isCopied, setIsCopied] = useState(false);
   const [isTorchOn, setIsTorchOn] = useState(false);
   const {history, addToHistory} = useContext(HistoryContext);
-  const {addToFavorites} = useFavorites()
+  const {addToFavorites} = useFavorites();
   
   const morseText = translateToMorse(enterText);
 
@@ -134,8 +134,10 @@ export default function Home(props) {
                   <Text>Morse: {item.morse}</Text>
                 </View>
                 <View style={styles.historyBottom}>
-                  <TouchableOpacity style={styles.favoryButton} onPress={() => addToFavorites(item)}>
-                    <AntDesign name="staro" size={20} color="blue" />
+                  <TouchableOpacity style={styles.deleteButton} 
+                    onPress={() => addToFavorites(item)
+                  }>
+                    <AntDesign name="staro" size={22} color='black' /> 
                   </TouchableOpacity>
                 </View>
               </View>

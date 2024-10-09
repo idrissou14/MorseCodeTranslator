@@ -1,9 +1,15 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Vibration } from 'react-native';
 import {useFavorites} from '../context/FavoritesContext';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { generateMorseSound } from '../utils/audioSignal';
+import { generateMorseVibration } from '../utils/vibrationSignal';
 
 
 export default function Saved() {
   const { favorites } = useFavorites();
+  const { removeToFavorites } = useFavorites();
+
   return (
     <View style={styles.container}>
         <ScrollView>
@@ -16,25 +22,29 @@ export default function Saved() {
               <View style={styles.signalContainer}>
                   <TouchableOpacity 
                     style={styles.signalBottom}
-                    onPress={() => {toggleTorch,  addToHistory(enterText, morseText)}}
+                    onPress={() => {toggleTorch}}
                   >
                     <MaterialIcons name="flashlight-on" size={24} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={styles.signalBottom}
                     onPress={() => {
-                      const morseVibratiob = generateMorseVibration(morseText);
+                      const morseVibratiob = generateMorseVibration(item.morse);
                       Vibration.vibrate(morseVibratiob);
-                      addToHistory(enterText, morseText)
                     }}
                   >
                     <MaterialIcons name="vibration" size={24} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity 
                     style={styles.signalBottom}
-                    onPress={() => {generateMorseSound(morseText),addToHistory(enterText, morseText)}}
+                    onPress={() => generateMorseSound(item.morse)}
                   >
                     <Ionicons name="volume-high" size={24} color="black" /> 
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress = {() => removeToFavorites(item)}
+                  >
+                    <MaterialIcons name="delete-forever" size={24} color="red" />
                   </TouchableOpacity>
               </View>
             </View>
@@ -51,12 +61,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#dedede',
   },
   favoriteItem: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 50,
+    backgroundColor: '#fff',
+    height: 70,
     paddingHorizontal: 20,
-    borderRadius: 10,
-    margin: 10
+    marginTop: 2
+  },
+  signalContainer: {
+    flexDirection: 'row',
+    justifyContent:'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
   }
 });

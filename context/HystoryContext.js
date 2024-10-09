@@ -20,12 +20,13 @@ export const HistoryProvider = ({ children }) => {
   const clearHistory = () => {
     setHistory([]);
     Toast.show({
-      type: 'success',
-      text1: 'Historique supprimé avec succès',
+      type: 'info',
+      text1: 'Deletes',
+      text2: 'History successfully cleared 👍',
       visibilityTime: 2000,
       autoHide: true,
-      topOffset: 100,
-      bottomOffset: 0,
+      // topOffset: 100,
+      // bottomOffset: 0,
     });
   };
 
