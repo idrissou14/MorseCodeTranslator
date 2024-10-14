@@ -29,10 +29,3 @@
 - **Favorites**: Save your favorite translations for quick access.
 - **Customizable Settings**: Configure how you want to receive the signals (sound, vibration, light).
 
-## Installation
-
-1. Make sure you have [Node.js](https://nodejs.org/en/) and [Expo CLI](https://docs.expo.dev/get-started/installation/) installed.
-2. Clone this repository to your local machine:
-
-   ```bash
-   git clone https://github.com/your-username/morse-converter-app.git
