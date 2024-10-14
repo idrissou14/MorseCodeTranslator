@@ -12,6 +12,7 @@
 
 ### 1. Translation Page
 ![Home](assets/sceen/Home.jpg)
+<img src="assets/sceen/Home.jpg" alt="home" size="200">
 
 ### 2. Favorites Page
 ![Favorites](assets/sceen/favorites.jpg)
