@@ -11,14 +11,13 @@
 ## Screenshots
 
 ### 1. Translation Page
-![Home](assets/sceen/Home.jpg)
-<img src="assets/sceen/Home.jpg" alt="home" size="200">
+<img src="assets/sceen/Home.jpg" alt="home" size="50">
 
 ### 2. Favorites Page
-![Favorites](assets/sceen/favorites.jpg)
+<img src="assets/sceen/favorites.jpg" alt="home" size="50">
 
 ### 3. Settings Page
-![Settings](assets/sceen/setting.jpg)
+<img src="assets/sceen/setting.jpg" alt="home" size="50">
 
 ## Features
 
