@@ -10,6 +10,7 @@ import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { HistoryProvider } from './context/HystoryContext';
 import Toast from 'react-native-toast-message';
 import { FavoritesProvider } from './context/FavoritesContext';
+import { TorchProvider } from './context/TorchContext';
 
 
 const tab = createBottomTabNavigator();
@@ -42,14 +43,16 @@ export default function App() {
   return (
       <HistoryProvider>
           <FavoritesProvider>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Home" 
-                  screenOptions={{ headerStyle: {backgroundColor: "#1863EC" }, headerTitleStyle:{color: "#fff"}, headerTitleAlign: 'center' }}
-                >
-                  <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
-                </Stack.Navigator>
-                <Toast ref={(ref) => Toast.setRef(ref)} />
-            </NavigationContainer>
+            <TorchProvider>
+              <NavigationContainer>
+                  <Stack.Navigator initialRouteName="Home" 
+                    screenOptions={{ headerStyle: {backgroundColor: "#1863EC" }, headerTitleStyle:{color: "#fff"}, headerTitleAlign: 'center' }}
+                  >
+                    <Stack.Screen name="Home" component={TabNavigator} options={{ headerTitle: 'Translator' }} />
+                  </Stack.Navigator>
+                  <Toast ref={(ref) => Toast.setRef(ref)} />
+              </NavigationContainer>
+            </TorchProvider>
           </FavoritesProvider>
       </HistoryProvider>
   );

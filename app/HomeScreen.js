@@ -11,6 +11,8 @@ import { translateToMorse } from '../utils/morseUtils';
 import { generateMorseSound } from '../utils/audioSignal';
 import { HistoryContext } from '../context/HystoryContext';
 import {useFavorites} from '../context/FavoritesContext';
+import Toast from 'react-native-toast-message';
+import { useTorch } from '../context/TorchContext';
 
 
 
@@ -35,33 +37,24 @@ export default function Home(props) {
   };
 
       //Torch
-  const toggleTorch = async () => {
-   Torch.switchState(!isTorchOn);
-   setIsTorchOn(!isTorchOn);
-      //After
-  }
 
-  // const addToHistory = (text, morse) => {
-  //   if (text.trim() !== "") {
-  //     setHistory((prevHistory) => [{ text, morse }, ...prevHistory]);
-  //   }
+      const {toggleTorch } = useTorch();
+  // const toggleTorch = async () => {
+   
+  //  Toast.show({
+  //   type: 'info',
+  //   text1: 'Coming Soon! 🎉',
+  //   text2: "Hang tight, this feature is on its way! 🚀",
+  //   visibilityTime: 2000,
+  //  })
+      
+  // }
+
+  // const toggleTorch = () => {
+  //   setTorchOn(!torchOn);
+  //   Torch.switchState(!torchOn);
   // };
 
-  // useEffect(() => {
-  //   if (enterText.trim()) {
-  //     addToHistory(enterText, morseText);  // Ajouter automatiquement à chaque changement de texte
-  //   }
-  // }, [morseText]); 
-
-   // Fonction pour ajouter la traduction à l'historique
-  //  const addToHistory = () => {
-  //   if (enterText && morseText) {
-  //     setHistory(prevHistory => [
-  //       ...prevHistory,
-  //       { text: enterText, morse: morseText }
-  //     ]); // Ajoute la nouvelle traduction à l'historique
-  //   }
-  // };
   
 
   return (
