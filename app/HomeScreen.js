@@ -96,7 +96,7 @@ export default function Home(props) {
         <View style={styles.signalContainer}>
             <TouchableOpacity 
               style={styles.signalBottom}
-              onPress={() => {toggleTorch,  addToHistory(enterText, morseText)}}
+              onPress={() => { addToHistory(enterText, morseText)}}
             >
               <MaterialIcons name="flashlight-on" size={24} color="black" />
             </TouchableOpacity>
@@ -199,23 +199,37 @@ const styles = StyleSheet.create({
   },
   signalContainer: {
     flexDirection: 'row',
-    borderBottomColor: '#dedede',
-    borderBottomWidth: 1
+    justifyContent: 'space-around',
+    marginBottom: 20,
   },
-  signalBottom: {
-    paddingHorizontal: 18,
+  signalButton: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 50,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: '#ddd',
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
   },
   historyItem: {
     flexDirection: 'row',
-    justifyContent:'space-between',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    borderBottomColor: '#dedede',
-    borderBottomWidth: 1,
-    backgroundColor: '#fff',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderRadius: 5
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginVertical: 5,
+    backgroundColor: '#fff', // Fond blanc pour chaque élément de l'historique
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd', // Bordure légère
+    shadowColor: '#ccc',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
+  },
+  historyScroll: {
+    paddingBottom: 10,
   },
 });
